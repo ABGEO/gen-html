@@ -1,0 +1,28 @@
+{
+    "name": "abgeo/gen-html",
+    "description": "Library for generating HTML document",
+    "type": "library",
+    "keywords": [
+        "HTML",
+        "Generator",
+        "PHP"
+    ],
+    "homepage": "https://github.com/ABGEO07/gen-html",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ABGEO",
+            "email": "takalandzet@gmail.com",
+            "homepage": "https://www.abgeo.dev",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "require-dev": {},
+    "autoload": {
+        "psr-4": {
+            "ABGEO\\": "src/"
+        }
+    }
+}
