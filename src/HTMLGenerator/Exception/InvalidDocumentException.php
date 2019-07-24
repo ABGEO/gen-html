@@ -33,8 +33,10 @@ class InvalidDocumentException extends \Exception
      *
      * @param string     $message  Error message.
      * @param int        $code     [optional] The Exception code.
-     *                             1: Empty Document title
-     *                             2: Empty document body.
+     *                             1: Empty Document title,
+     *                             2: Empty document body,
+     *                             3: Invalid Language Code,
+     *                             4: Invalid Charset.
      * @param \Exception $previous [optional] The previous throwable
      *                             used for the exception chaining.
      */

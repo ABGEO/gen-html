@@ -7,12 +7,12 @@ use ABGEO\HTMLGenerator\Document;
 
 $document = new Document();
 
-$html = $document
+$document
+    ->setLanguage(Document::LANG_GEORGIAN)
     ->setTitle('Title')
-    ->setCharset('utf')
+    ->setCharset(Document::CHARSET_UTF_8)
     ->setDescription('description')
     ->setKeywords(['k1', 'k2', 'k3', 'k2'])
-    ->setBody('<b>Hello</b>')
-    ->getDocument();
+    ->setBody('<b>Hello</b>');
 
-echo $html;
+echo $document->getDocument();
