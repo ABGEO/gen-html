@@ -36,7 +36,8 @@ class InvalidDocumentException extends \Exception
      *                             1: Empty Document title,
      *                             2: Empty document body,
      *                             3: Invalid Language Code,
-     *                             4: Invalid Charset.
+     *                             4: Invalid Charset,
+     *                             5: Invalid link target.
      * @param \Exception $previous [optional] The previous throwable
      *                             used for the exception chaining.
      */
