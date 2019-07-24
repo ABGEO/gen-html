@@ -11,7 +11,10 @@ $body = new Element();
 $body->createLink(
     'Informatics.ge', 'https://informatics.ge',
     Element::TARGET_BLANK, ['class1', 'class1', 'class2'], 'id'
-);
+)
+    ->createBreak()
+    ->createBreak()
+    ->createLine();
 
 $document = new Document();
 

@@ -159,6 +159,30 @@ class Element
     }
 
     /**
+     * Create br element.
+     *
+     * @return \ABGEO\HTMLGenerator\Element
+     */
+    public function createBreak()
+    {
+        $this->_html .= "<br>\n\t";
+
+        return $this;
+    }
+
+    /**
+     * Create hr element.
+     *
+     * @return \ABGEO\HTMLGenerator\Element
+     */
+    public function createLine()
+    {
+        $this->_html .= "<hr>\n\t";
+
+        return $this;
+    }
+
+    /**
      * Clear HTML Content.
      *
      * @return void
