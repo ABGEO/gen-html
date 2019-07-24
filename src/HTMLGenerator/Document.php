@@ -263,11 +263,25 @@ class Document
     private $_keywords;
 
     /**
+     * HTML Document styles [optional].
+     *
+     * @var array
+     */
+    private $_styles;
+
+    /**
      * HTML Document body.
      *
      * @var string
      */
     private $_body;
+
+    /**
+     * HTML Document scripts [optional].
+     *
+     * @var array
+     */
+    private $_scripts;
 
     /**
      * Get all constants defined in Document class
@@ -386,6 +400,21 @@ class Document
     }
 
     /**
+     * Append to HTML Document styles.
+     *
+     * @param string $filePath Style file path.
+     *
+     * @return \ABGEO\HTMLGenerator\Document
+     */
+    public function addStyle(string $filePath): self
+    {
+        $this->_styles[] = $filePath;
+        $this->_styles = array_unique($this->_styles);
+
+        return $this;
+    }
+
+    /**
      * Set HTML Document body.
      *
      * @param string $body HTML Document body.
@@ -395,6 +424,21 @@ class Document
     public function setBody($body): self
     {
         $this->_body = $body;
+
+        return $this;
+    }
+
+    /**
+     * Append to HTML Document scripts.
+     *
+     * @param string $filePath Script file path.
+     *
+     * @return \ABGEO\HTMLGenerator\Document
+     */
+    public function addScript(string $filePath): self
+    {
+        $this->_scripts[] = $filePath;
+        $this->_scripts = array_unique($this->_scripts);
 
         return $this;
     }
@@ -428,6 +472,20 @@ class Document
             $document
         );
         $document = str_replace('{body}', $this->_body, $document);
+
+        // Add styles.
+        $styles = '';
+        foreach ($this->_styles as $style) {
+            $styles .= "<link rel=\"stylesheet\" href=\"{$style}\">\n\t";
+        }
+        $document = str_replace('{styles}', $styles, $document);
+
+        // Add scripts.
+        $scripts = '';
+        foreach ($this->_scripts as $script) {
+            $scripts .= "<script src=\"{$script}\"></script> \n\t";
+        }
+        $document = str_replace('{scripts}', $scripts, $document);
 
         return $document;
     }
