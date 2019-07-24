@@ -14,7 +14,17 @@ $body->createLink(
 )
     ->createBreak()
     ->createBreak()
-    ->createLine();
+    ->createLine()
+    ->createArticle('<p>Hello</p>', ['class1'], 'id')
+    ->createBold('I\'m Bold text', [], 'bold')
+    ->createBlockquote(
+        'I\'m Quote',
+        'http://www.worldwildlife.org/who/index.html', [], 'quote'
+    )
+    ->createDiv('<p>I\'m Paragraph in Div</p>', [], 'div')
+    ->createHeading('H1')
+    ->createHeading('H3', 3)
+    ->createHeading('H6', 6);
 
 $document = new Document();
 
