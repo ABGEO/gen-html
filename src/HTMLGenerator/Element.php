@@ -34,6 +34,10 @@ class Element
     const TARGET_SELF   = '_self';
     const TARGET_TOP    = '_top';
 
+    // Define list types.
+    const LIST_ORDERED = 'ol';
+    const LIST_UNORDERED = 'ul';
+
     /**
      * HTML Content.
      *
@@ -276,6 +280,29 @@ EOF;
     }
 
     /**
+     * Create code tag.
+     *
+     * @param string      $code    Code content.
+     * @param array       $classes HTML Classes.
+     * @param string|null $id      Element ID.
+     *
+     * @return \ABGEO\HTMLGenerator\Element
+     */
+    public function createCode(
+        string $code,
+        array $classes = [],
+        string $id = null
+    ) {
+        $template = "<code{classes_area}{id_area}>{content}</code>\n\t";
+
+        $this->_html .= $this->_createBaseFromTemplate(
+            $template, $code, $classes, $id
+        );
+
+        return $this;
+    }
+
+    /**
      * Create div tag.
      *
      * @param string      $content Div content.
@@ -303,12 +330,62 @@ EOF;
     }
 
     /**
+     * Create em tag.
+     *
+     * @param string      $content Em content.
+     * @param array       $classes HTML Classes.
+     * @param string|null $id      Element ID.
+     *
+     * @return \ABGEO\HTMLGenerator\Element
+     */
+    public function createEm(
+        string $content,
+        array $classes = [],
+        string $id = null
+    ) {
+        $template = "<em{classes_area}{id_area}>{content}</em>\n\t";
+
+        $this->_html .= $this->_createBaseFromTemplate(
+            $template, $content, $classes, $id
+        );
+
+        return $this;
+    }
+
+    /**
+     * Create footer tag.
+     *
+     * @param string      $content Footer content.
+     * @param array       $classes HTML Classes.
+     * @param string|null $id      Element ID.
+     *
+     * @return \ABGEO\HTMLGenerator\Element
+     */
+    public function createFooter(
+        string $content,
+        array $classes = [],
+        string $id = null
+    ) {
+        $template = <<<EOF
+<footer{classes_area}{id_area}>
+        {content}
+    </footer>\n\t
+EOF;
+
+        $this->_html .= $this->_createBaseFromTemplate(
+            $template, $content, $classes, $id
+        );
+
+        return $this;
+    }
+
+    /**
      * Create heading (h1-h6 tag).
      *
-     * @param string $content Heading content.
-     * @param int $size Heading size (1-6).
-     * @param array $classes HTML Classes.
-     * @param string|null $id Element ID.
+     * @param string      $content Heading content.
+     * @param int         $size    Heading size (1-6).
+     * @param array       $classes HTML Classes.
+     * @param string|null $id      Element ID.
      *
      * @return \ABGEO\HTMLGenerator\Element
      *
@@ -338,6 +415,33 @@ EOF;
     }
 
     /**
+     * Create header tag.
+     *
+     * @param string      $content header content.
+     * @param array       $classes HTML Classes.
+     * @param string|null $id      Element ID.
+     *
+     * @return \ABGEO\HTMLGenerator\Element
+     */
+    public function createHeader(
+        string $content,
+        array $classes = [],
+        string $id = null
+    ) {
+        $template = <<<EOF
+<header{classes_area}{id_area}>
+        {content}
+    </header>\n\t
+EOF;
+
+        $this->_html .= $this->_createBaseFromTemplate(
+            $template, $content, $classes, $id
+        );
+
+        return $this;
+    }
+
+    /**
      * Create hr element.
      *
      * @return \ABGEO\HTMLGenerator\Element
@@ -345,6 +449,139 @@ EOF;
     public function createLine()
     {
         $this->_html .= "<hr>\n\t";
+
+        return $this;
+    }
+
+    /**
+     * Create i tag.
+     *
+     * @param string      $content I content.
+     * @param array       $classes HTML Classes.
+     * @param string|null $id      Element ID.
+     *
+     * @return \ABGEO\HTMLGenerator\Element
+     */
+    public function createI(
+        string $content,
+        array $classes = [],
+        string $id = null
+    ) {
+        $template = "<i{classes_area}{id_area}>{content}</i>\n\t";
+
+        $this->_html .= $this->_createBaseFromTemplate(
+            $template, $content, $classes, $id
+        );
+
+        return $this;
+    }
+
+    /**
+     * Create img tag.
+     *
+     * @param string      $src     Image Source.
+     * @param string|null $alt     Image Alt Text.
+     * @param int         $height  Image Height.
+     * @param int         $width   Image with.
+     * @param array       $classes HTML Classes.
+     * @param string|null $id      Element ID.
+     *
+     * @return \ABGEO\HTMLGenerator\Element
+     */
+    public function createImg(
+        string $src,
+        string $alt = null,
+        int $height = -1,
+        int $width = -1,
+        array $classes = [],
+        string $id = null
+    ) {
+        $template = "<img src=\"{src}\"{alt_area}{height_area}" .
+            "{width_area}{classes_area}{id_area}>\n\t";
+
+        $altArea = null;
+        $heightArea = null;
+        $widthArea = null;
+        $classesArea = null;
+        $idArea = null;
+
+        if (null != $alt) {
+            $altArea = " alt=\"$alt\"";
+        }
+        if (-1 != $height) {
+            $heightArea = " height=\"$height\"";
+        }
+        if (-1 != $width) {
+            $widthArea = " width=\"$width\"";
+        }
+        if ([] != $classes) {
+            $classes = implode(array_unique($classes), ' ');
+            $classesArea = " class=\"$classes\"";
+        }
+        if (null != $id) {
+            $idArea = " id=\"$id\"";
+        }
+
+        $template = str_replace('{src}', $src, $template);
+        $template = str_replace('{alt_area}', $altArea, $template);
+        $template = str_replace('{height_area}', $heightArea, $template);
+        $template = str_replace('{width_area}', $widthArea, $template);
+        $template = str_replace('{classes_area}', $classesArea, $template);
+        $template = str_replace('{id_area}', $idArea, $template);
+
+        $this->_html .= $template;
+
+        return $this;
+    }
+
+    /**
+     * Create ol or ul elements.
+     *
+     * @param array       $items   List items.
+     * @param string      $type    List type (ol or ul).
+     * @param array       $classes HTML Classes.
+     * @param string|null $id      Element ID.
+     *
+     * @return \ABGEO\HTMLGenerator\Element
+     *
+     * @throws InvalidDocumentException
+     * @throws \ReflectionException
+     */
+    public function createList(
+        array $items,
+        string $type = self::LIST_ORDERED,
+        array $classes = [],
+        string $id = null
+    ) {
+        // Validation.
+
+        $validTypes = array_filter(
+            $this->_getConstants(), function ($key) {
+                return strpos($key, 'LIST_') === 0;
+            }, ARRAY_FILTER_USE_KEY
+        );
+
+        // Check if given target is valid.
+        if (!in_array($type, array_values($validTypes))) {
+            throw new InvalidDocumentException(
+                'Invalid list type "' . $type . '"!', 7
+            );
+        }
+
+        $content = '';
+        foreach ($items as $item) {
+            $content .= "<li>{$item}</li>\n\t";
+        }
+
+        $template = <<<EOF
+<{$type}{classes_area}{id_area}>
+        {content}
+    </$type>
+EOF;
+
+        $this->_html .= $this->_createBaseFromTemplate(
+            $template, $content, $classes, $id
+        );
 
         return $this;
     }

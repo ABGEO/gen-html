@@ -8,10 +8,11 @@ use ABGEO\HTMLGenerator\Element;
 
 $body = new Element();
 
-$body->createLink(
-    'Informatics.ge', 'https://informatics.ge',
-    Element::TARGET_BLANK, ['class1', 'class1', 'class2'], 'id'
-)
+$body->createHeader('<p>I\'m Paragraph in Header</p>')
+    ->createLink(
+        'Informatics.ge', 'https://informatics.ge',
+        Element::TARGET_BLANK, ['class1', 'class1', 'class2'], 'id'
+    )
     ->createBreak()
     ->createBreak()
     ->createLine()
@@ -24,7 +25,15 @@ $body->createLink(
     ->createDiv('<p>I\'m Paragraph in Div</p>', [], 'div')
     ->createHeading('H1')
     ->createHeading('H3', 3)
-    ->createHeading('H6', 6);
+    ->createHeading('H6', 6)
+    ->createEm('I\'m Emphasized text')
+    ->createBreak()
+    ->createBreak()
+    ->createCode('print ("Hello. World")')
+    ->createI('<p>I\'m alternate voice</p>')
+    ->createImg('../images/code.jpg', 'Alternative text')
+    ->createList(['item1', 'item2', 'item3'], Element::LIST_UNORDERED)
+    ->createFooter('<p>I\'m Paragraph in Footer</p>');
 
 $document = new Document();
 

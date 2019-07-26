@@ -38,7 +38,8 @@ class InvalidDocumentException extends \Exception
      *                             3: Invalid Language Code,
      *                             4: Invalid Charset,
      *                             5: Invalid link target,
-     *                             6: Invalid heading size.
+     *                             6: Invalid heading size,
+     *                             7: Invalid list type.
      * @param \Exception $previous [optional] The previous throwable
      *                             used for the exception chaining.
      */
