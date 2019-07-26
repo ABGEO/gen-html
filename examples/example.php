@@ -6,34 +6,43 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use ABGEO\HTMLGenerator\Document;
 use ABGEO\HTMLGenerator\Element;
 
-$body = new Element();
+$element = new Element();
 
-$body->createHeader('<p>I\'m Paragraph in Header</p>')
-    ->createLink(
-        'Informatics.ge', 'https://informatics.ge',
-        Element::TARGET_BLANK, ['class1', 'class1', 'class2'], 'id'
+$element
+    ->addElement($element->createHeader('<p>I\'m Paragraph in Header</p>'))
+    ->addElement(
+        $element->createLink(
+            'Informatics.ge', 'https://informatics.ge',
+            Element::TARGET_BLANK, ['class1', 'class1', 'class2'], 'id'
+        )
     )
-    ->createBreak()
-    ->createBreak()
-    ->createLine()
-    ->createArticle('<p>Hello</p>', ['class1'], 'id')
-    ->createBold('I\'m Bold text', [], 'bold')
-    ->createBlockquote(
-        'I\'m Quote',
-        'http://www.worldwildlife.org/who/index.html', [], 'quote'
+    ->addElement($element->createBreak())
+    ->addElement($element->createBreak())
+    ->addElement($element->createLine())
+    ->addElement($element->createArticle('<p>Hello</p>', ['class1'], 'id'))
+    ->addElement($element->createBold('I\'m Bold text', [], 'bold'))
+    ->addElement(
+        $element->createBlockquote(
+            'I\'m Quote',
+            'http://www.worldwildlife.org/who/index.html', [], 'quote'
+        )
     )
-    ->createDiv('<p>I\'m Paragraph in Div</p>', [], 'div')
-    ->createHeading('H1')
-    ->createHeading('H3', 3)
-    ->createHeading('H6', 6)
-    ->createEm('I\'m Emphasized text')
-    ->createBreak()
-    ->createBreak()
-    ->createCode('print ("Hello. World")')
-    ->createI('<p>I\'m alternate voice</p>')
-    ->createImg('../images/code.jpg', 'Alternative text')
-    ->createList(['item1', 'item2', 'item3'], Element::LIST_UNORDERED)
-    ->createFooter('<p>I\'m Paragraph in Footer</p>');
+    ->addElement($element->createDiv('<p>I\'m Paragraph in Div</p>', [], 'div'))
+    ->addElement($element->createHeading('H1'))
+    ->addElement($element->createHeading('H3', 3))
+    ->addElement($element->createHeading('H6', 6))
+    ->addElement($element->createEm('I\'m Emphasized text'))
+    ->addElement($element->createBreak())
+    ->addElement($element->createBreak())
+    ->addElement($element->createCode('print ("Hello. World")'))
+    ->addElement($element->createI('<p>I\'m alternate voice</p>'))
+    ->addElement($element->createImg('../images/code.jpg', 'Alternative text'))
+    ->addElement(
+        $element->createList(
+            ['item1', 'item2', 'item3'], Element::LIST_UNORDERED
+        )
+    )
+    ->addElement($element->createFooter('<p>I\'m Paragraph in Footer</p>'));
 
 $document = new Document();
 
@@ -45,7 +54,7 @@ $document
     ->setKeywords(['k1', 'k2', 'k3', 'k2'])
     ->addStyle('../css/theme.css')
     ->addStyle('../css/custom.css')
-    ->setBody($body->getHtml())
+    ->setBody($element->getHtml())
     ->addScript('../js/scripts.js')
     ->addScript('../js/messages.js')
     ->addScript('../js/auth.js');

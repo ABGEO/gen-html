@@ -128,6 +128,20 @@ class Element
     }
 
     /**
+     * Add element to HTML content.
+     *
+     * @param string $html Element.
+     *
+     * @return Element
+     */
+    public function addElement(string $html): self
+    {
+        $this->_html .= $html;
+
+        return $this;
+    }
+
+    /**
      * Get HTML Content.
      *
      * @return string
@@ -146,7 +160,8 @@ class Element
      * @param array       $classes HTML Classes.
      * @param string|null $id      Element ID.
      *
-     * @return \ABGEO\HTMLGenerator\Element
+     * @return string
+     *
      * @throws InvalidDocumentException
      * @throws \ReflectionException
      */
@@ -156,7 +171,7 @@ class Element
         string $target = self::TARGET_BLANK,
         array $classes = [],
         string $id = null
-    ) {
+    ): string {
         // Validation.
 
         $validTargets = array_filter(
@@ -182,9 +197,7 @@ class Element
         $template = str_replace('{href}', $href, $template);
         $template = str_replace('{target}', $target, $template);
 
-        $this->_html .= $template;
-
-        return $this;
+        return $template;
     }
 
     /**
@@ -194,24 +207,24 @@ class Element
      * @param array       $classes HTML Classes.
      * @param string|null $id      Element ID.
      *
-     * @return \ABGEO\HTMLGenerator\Element
+     * @return string
      */
     public function createArticle(
         string $content,
         array $classes = [],
         string $id = null
-    ) {
+    ): string {
         $template = <<<EOF
 <article{classes_area}{id_area}>
         {content}
     </article>\n\t
 EOF;
 
-        $this->_html .= $this->_createBaseFromTemplate(
+        $return = $this->_createBaseFromTemplate(
             $template, $content, $classes, $id
         );
 
-        return $this;
+        return $return;
     }
 
     /**
@@ -221,20 +234,20 @@ EOF;
      * @param array       $classes HTML Classes.
      * @param string|null $id      Element ID.
      *
-     * @return \ABGEO\HTMLGenerator\Element
+     * @return string
      */
     public function createBold(
         string $content,
         array $classes = [],
         string $id = null
-    ) {
+    ): string {
         $template = "<b{classes_area}{id_area}>{content}</b>\n\t";
 
-        $this->_html .= $this->_createBaseFromTemplate(
+        $return = $this->_createBaseFromTemplate(
             $template, $content, $classes, $id
         );
 
-        return $this;
+        return $return;
     }
 
     /**
@@ -245,14 +258,14 @@ EOF;
      * @param array       $classes HTML Classes.
      * @param string|null $id      Element ID.
      *
-     * @return \ABGEO\HTMLGenerator\Element
+     * @return string
      */
     public function createBlockquote(
         string $content,
         string $cite,
         array $classes = [],
         string $id = null
-    ) {
+    ): string {
         $template = "<blockquote cite=\"{cite}\"{classes_area}{id_area}>" .
             "{content}</blockquote>\n\t";
 
@@ -262,21 +275,17 @@ EOF;
 
         $template = str_replace('{cite}', $cite, $template);
 
-        $this->_html .= $template;
-
-        return $this;
+        return $template;
     }
 
     /**
      * Create br element.
      *
-     * @return \ABGEO\HTMLGenerator\Element
+     * @return string
      */
-    public function createBreak()
+    public function createBreak(): string
     {
-        $this->_html .= "<br>\n\t";
-
-        return $this;
+        return "<br>\n\t";
     }
 
     /**
@@ -286,20 +295,20 @@ EOF;
      * @param array       $classes HTML Classes.
      * @param string|null $id      Element ID.
      *
-     * @return \ABGEO\HTMLGenerator\Element
+     * @return string
      */
     public function createCode(
         string $code,
         array $classes = [],
         string $id = null
-    ) {
+    ): string {
         $template = "<code{classes_area}{id_area}>{content}</code>\n\t";
 
-        $this->_html .= $this->_createBaseFromTemplate(
+        $return = $this->_createBaseFromTemplate(
             $template, $code, $classes, $id
         );
 
-        return $this;
+        return $return;
     }
 
     /**
@@ -309,24 +318,24 @@ EOF;
      * @param array       $classes HTML Classes.
      * @param string|null $id      Element ID.
      *
-     * @return \ABGEO\HTMLGenerator\Element
+     * @return string
      */
     public function createDiv(
         string $content,
         array $classes = [],
         string $id = null
-    ) {
+    ): string {
         $template = <<<EOF
 <div{classes_area}{id_area}>
         {content}
     </div>\n\t
 EOF;
 
-        $this->_html .= $this->_createBaseFromTemplate(
+        $return = $this->_createBaseFromTemplate(
             $template, $content, $classes, $id
         );
 
-        return $this;
+        return $return;
     }
 
     /**
@@ -336,20 +345,20 @@ EOF;
      * @param array       $classes HTML Classes.
      * @param string|null $id      Element ID.
      *
-     * @return \ABGEO\HTMLGenerator\Element
+     * @return string
      */
     public function createEm(
         string $content,
         array $classes = [],
         string $id = null
-    ) {
+    ): string {
         $template = "<em{classes_area}{id_area}>{content}</em>\n\t";
 
-        $this->_html .= $this->_createBaseFromTemplate(
+        $return = $this->_createBaseFromTemplate(
             $template, $content, $classes, $id
         );
 
-        return $this;
+        return $return;
     }
 
     /**
@@ -359,24 +368,24 @@ EOF;
      * @param array       $classes HTML Classes.
      * @param string|null $id      Element ID.
      *
-     * @return \ABGEO\HTMLGenerator\Element
+     * @return string
      */
     public function createFooter(
         string $content,
         array $classes = [],
         string $id = null
-    ) {
+    ): string {
         $template = <<<EOF
 <footer{classes_area}{id_area}>
         {content}
     </footer>\n\t
 EOF;
 
-        $this->_html .= $this->_createBaseFromTemplate(
+        $return = $this->_createBaseFromTemplate(
             $template, $content, $classes, $id
         );
 
-        return $this;
+        return $return;
     }
 
     /**
@@ -387,7 +396,7 @@ EOF;
      * @param array       $classes HTML Classes.
      * @param string|null $id      Element ID.
      *
-     * @return \ABGEO\HTMLGenerator\Element
+     * @return string
      *
      * @throws InvalidDocumentException
      */
@@ -396,7 +405,7 @@ EOF;
         int $size = 1,
         array $classes = [],
         string $id = null
-    ) {
+    ): string {
         // Validation.
 
         if (1 > $size || 6 < $size) {
@@ -407,11 +416,11 @@ EOF;
 
         $template = "<h{$size}{classes_area}{id_area}>{content}</h{$size}>\n\t";
 
-        $this->_html .= $this->_createBaseFromTemplate(
+        $return = $this->_createBaseFromTemplate(
             $template, $content, $classes, $id
         );
 
-        return $this;
+        return $return;
     }
 
     /**
@@ -421,36 +430,34 @@ EOF;
      * @param array       $classes HTML Classes.
      * @param string|null $id      Element ID.
      *
-     * @return \ABGEO\HTMLGenerator\Element
+     * @return string
      */
     public function createHeader(
         string $content,
         array $classes = [],
         string $id = null
-    ) {
+    ): string {
         $template = <<<EOF
 <header{classes_area}{id_area}>
         {content}
     </header>\n\t
 EOF;
 
-        $this->_html .= $this->_createBaseFromTemplate(
+        $return = $this->_createBaseFromTemplate(
             $template, $content, $classes, $id
         );
 
-        return $this;
+        return $return;
     }
 
     /**
      * Create hr element.
      *
-     * @return \ABGEO\HTMLGenerator\Element
+     * @return string
      */
-    public function createLine()
+    public function createLine(): string
     {
-        $this->_html .= "<hr>\n\t";
-
-        return $this;
+        return "<hr>\n\t";
     }
 
     /**
@@ -460,20 +467,20 @@ EOF;
      * @param array       $classes HTML Classes.
      * @param string|null $id      Element ID.
      *
-     * @return \ABGEO\HTMLGenerator\Element
+     * @return string
      */
     public function createI(
         string $content,
         array $classes = [],
         string $id = null
-    ) {
+    ): string {
         $template = "<i{classes_area}{id_area}>{content}</i>\n\t";
 
-        $this->_html .= $this->_createBaseFromTemplate(
+        $return = $this->_createBaseFromTemplate(
             $template, $content, $classes, $id
         );
 
-        return $this;
+        return $return;
     }
 
     /**
@@ -486,7 +493,7 @@ EOF;
      * @param array       $classes HTML Classes.
      * @param string|null $id      Element ID.
      *
-     * @return \ABGEO\HTMLGenerator\Element
+     * @return string
      */
     public function createImg(
         string $src,
@@ -495,7 +502,7 @@ EOF;
         int $width = -1,
         array $classes = [],
         string $id = null
-    ) {
+    ): string {
         $template = "<img src=\"{src}\"{alt_area}{height_area}" .
             "{width_area}{classes_area}{id_area}>\n\t";
 
@@ -529,9 +536,7 @@ EOF;
         $template = str_replace('{classes_area}', $classesArea, $template);
         $template = str_replace('{id_area}', $idArea, $template);
 
-        $this->_html .= $template;
-
-        return $this;
+        return $template;
     }
 
     /**
@@ -542,7 +547,7 @@ EOF;
      * @param array       $classes HTML Classes.
      * @param string|null $id      Element ID.
      *
-     * @return \ABGEO\HTMLGenerator\Element
+     * @return string
      *
      * @throws InvalidDocumentException
      * @throws \ReflectionException
@@ -552,7 +557,7 @@ EOF;
         string $type = self::LIST_ORDERED,
         array $classes = [],
         string $id = null
-    ) {
+    ): string {
         // Validation.
 
         $validTypes = array_filter(
@@ -576,14 +581,14 @@ EOF;
         $template = <<<EOF
 <{$type}{classes_area}{id_area}>
         {content}
-    </$type>
+    </$type>\n\t
 EOF;
 
-        $this->_html .= $this->_createBaseFromTemplate(
+        $return = $this->_createBaseFromTemplate(
             $template, $content, $classes, $id
         );
 
-        return $this;
+        return $return;
     }
 
     /**
