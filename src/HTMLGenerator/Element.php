@@ -592,6 +592,116 @@ EOF;
     }
 
     /**
+     * Create nav tag.
+     *
+     * @param array       $items     Array of a tags.
+     * @param string|null $separator Nav separator
+     * @param array       $classes   HTML Classes.
+     * @param string|null $id        Element ID.
+     *
+     * @return string
+     */
+    public function createNav(
+        array $items,
+        string $separator = null,
+        array $classes = [],
+        string $id = null
+    ): string {
+        $template = <<<EOF
+<nav{classes_area}{id_area}>
+        {content}
+    </nav>\n\t
+EOF;
+
+        $content = implode($items, "{$separator}\n\t");
+
+        $return = $this->_createBaseFromTemplate(
+            $template, $content, $classes, $id
+        );
+
+        return $return;
+    }
+
+    /**
+     * Create p tag.
+     *
+     * @param string      $content I content.
+     * @param array       $classes HTML Classes.
+     * @param string|null $id      Element ID.
+     *
+     * @return string
+     */
+    public function createParagraph(
+        string $content,
+        array $classes = [],
+        string $id = null
+    ): string {
+        $template = "<p{classes_area}{id_area}>{content}</p>\n\t";
+
+        $return = $this->_createBaseFromTemplate(
+            $template, $content, $classes, $id
+        );
+
+        return $return;
+    }
+
+    /**
+     * Create pre tag.
+     *
+     * @param string      $content Pre content.
+     * @param array       $classes HTML Classes.
+     * @param string|null $id      Element ID.
+     *
+     * @return string
+     */
+    public function createPre(
+        string $content,
+        array $classes = [],
+        string $id = null
+    ): string {
+        $template = <<<EOF
+<pre{classes_area}{id_area}>
+{content}
+    </pre>\n\t
+EOF;
+
+        $return = $this->_createBaseFromTemplate(
+            $template, $content, $classes, $id
+        );
+
+        return $return;
+    }
+
+    /**
+     * Create progress tag.
+     *
+     * @param int         $value   Current value.
+     * @param int         $max     Max value.
+     * @param array       $classes HTML Classes.
+     * @param string|null $id      Element ID.
+     *
+     * @return string
+     */
+    public function createProgress(
+        int $value,
+        int $max = 100,
+        array $classes = [],
+        string $id = null
+    ): string {
+        $template = "<progress value=\"{value}\" max=\"{max}\"" .
+            "{classes_area}{id_area}></progress>\n\t";
+
+        $template = $this->_createBaseFromTemplate(
+            $template, '', $classes, $id
+        );
+
+        $template = str_replace('{value}', $value, $template);
+        $template = str_replace('{max}', $max, $template);
+
+        return $template;
+    }
+
+    /**
      * Clear HTML Content.
      *
      * @return void

@@ -42,6 +42,19 @@ $element
             ['item1', 'item2', 'item3'], Element::LIST_UNORDERED
         )
     )
+    ->addElement(
+        $element->createNav(
+            [
+                $element->createLink('link1', '#link1'),
+                $element->createLink('link2', '#link2'),
+                $element->createLink('link3', '#link3'),
+            ],
+            '|'
+        )
+    )
+    ->addElement($element->createParagraph('I\'m Paragraph'))
+    ->addElement($element->createPre('I\'m preformatted text'))
+    ->addElement($element->createProgress(10))
     ->addElement($element->createFooter('<p>I\'m Paragraph in Footer</p>'));
 
 $document = new Document();
