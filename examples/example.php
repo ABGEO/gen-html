@@ -9,40 +9,40 @@ use ABGEO\HTMLGenerator\Element;
 $element = new Element();
 
 $element
-    ->addElement($element->createHeader('<p>I\'m Paragraph in Header</p>'))
-    ->addElement(
+    ->add2Content($element->createHeader('<p>I\'m Paragraph in Header</p>'))
+    ->add2Content(
         $element->createLink(
             'Informatics.ge', 'https://informatics.ge',
             Element::TARGET_BLANK, ['class1', 'class1', 'class2'], 'id'
         )
     )
-    ->addElement($element->createBreak())
-    ->addElement($element->createBreak())
-    ->addElement($element->createLine())
-    ->addElement($element->createArticle('<p>Hello</p>', ['class1'], 'id'))
-    ->addElement($element->createBold('I\'m Bold text', [], 'bold'))
-    ->addElement(
+    ->add2Content($element->createBreak())
+    ->add2Content($element->createBreak())
+    ->add2Content($element->createLine())
+    ->add2Content($element->createArticle('<p>Hello</p>', ['class1'], 'id'))
+    ->add2Content($element->createBold('I\'m Bold text', [], 'bold'))
+    ->add2Content(
         $element->createBlockquote(
             'I\'m Quote',
             'http://www.worldwildlife.org/who/index.html', [], 'quote'
         )
     )
-    ->addElement($element->createDiv('<p>I\'m Paragraph in Div</p>', [], 'div'))
-    ->addElement($element->createHeading('H1'))
-    ->addElement($element->createHeading('H3', 3))
-    ->addElement($element->createHeading('H6', 6))
-    ->addElement($element->createEm('I\'m Emphasized text'))
-    ->addElement($element->createBreak())
-    ->addElement($element->createBreak())
-    ->addElement($element->createCode('print ("Hello. World")'))
-    ->addElement($element->createI('<p>I\'m alternate voice</p>'))
-    ->addElement($element->createImg('../images/code.jpg', 'Alternative text'))
-    ->addElement(
+    ->add2Content($element->createDiv('<p>I\'m Paragraph in Div</p>', [], 'div'))
+    ->add2Content($element->createHeading('H1'))
+    ->add2Content($element->createHeading('H3', 3))
+    ->add2Content($element->createHeading('H6', 6))
+    ->add2Content($element->createEm('I\'m Emphasized text'))
+    ->add2Content($element->createBreak())
+    ->add2Content($element->createBreak())
+    ->add2Content($element->createCode('print ("Hello. World")'))
+    ->add2Content($element->createI('<p>I\'m alternate voice</p>'))
+    ->add2Content($element->createImg('../images/code.jpg', 'Alternative text'))
+    ->add2Content(
         $element->createList(
             ['item1', 'item2', 'item3'], Element::LIST_UNORDERED
         )
     )
-    ->addElement(
+    ->add2Content(
         $element->createNav(
             [
                 $element->createLink('link1', '#link1'),
@@ -52,10 +52,10 @@ $element
             '|'
         )
     )
-    ->addElement($element->createParagraph('I\'m Paragraph'))
-    ->addElement($element->createPre('I\'m preformatted text'))
-    ->addElement($element->createProgress(10))
-    ->addElement($element->createFooter('<p>I\'m Paragraph in Footer</p>'));
+    ->add2Content($element->createParagraph('I\'m Paragraph'))
+    ->add2Content($element->createPre('I\'m preformatted text'))
+    ->add2Content($element->createProgress(10))
+    ->add2Content($element->createFooter('<p>I\'m Paragraph in Footer</p>'));
 
 $document = new Document();
 

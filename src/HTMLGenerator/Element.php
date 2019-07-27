@@ -134,7 +134,7 @@ class Element
      *
      * @return Element
      */
-    public function addElement(string $html): self
+    public function add2Content(string $html): self
     {
         $this->_html .= $html;
 
@@ -149,6 +149,18 @@ class Element
     public function getHtml(): string
     {
         return $this->_html;
+    }
+
+    /**
+     * Concatenate given elements.
+     *
+     * @param string ...$elements HTML Elements.
+     *
+     * @return string
+     */
+    public function concatenateElements(string ...$elements): string
+    {
+        return implode($elements);
     }
 
     /**
@@ -704,11 +716,13 @@ EOF;
     /**
      * Clear HTML Content.
      *
-     * @return void
+     * @return Element
      */
-    public function clear(): void
+    public function clear(): self
     {
         $this->_html = null;
+
+        return $this;
     }
 
     /**
