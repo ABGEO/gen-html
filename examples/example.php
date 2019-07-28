@@ -78,6 +78,16 @@ try {
                 )
             )
         )
+        ->add2Content(
+            Element::createTable(
+                [
+                    ['h1', 'h2', 'h3'],
+                    ['d1.1', 'd1.2', 'd1.3'],
+                    ['d2.1', 'd2.2', 'd2.3'],
+                    ['d3.1', 'd3.2', 'd3.3']
+                ], ['table'], 'table1'
+            )
+        )
         ->add2Content(Element::createFooter('<p>I\'m Paragraph in Footer</p>'));
 
     $document

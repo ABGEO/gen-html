@@ -833,6 +833,64 @@ EOF;
     }
 
     /**
+     * Create table tag.
+     *
+     * @param array       $data    Table data.
+     * @param array       $classes HTML Classes.
+     * @param string|null $id      Element ID.
+     *
+     * @return string
+     */
+    public static function createTable(
+        array $data,
+        array $classes = [],
+        string $id = null
+    ): string {
+        $template = <<<EOF
+<table{classes_area}{id_area}>
+    <thead>
+        {thead}
+    </thead>
+    <tbody>
+        {tbody}
+    </tbody>
+</table>\n\t
+EOF;
+
+        $return = self::_createBaseFromTemplate(
+            $template, '', $classes, $id
+        );
+
+        // Generate thead content;
+
+        $theadArray = $data[0];
+        unset($data[0]);
+
+        $theadTr = null;
+        if ([] !== $theadArray) {
+            $theadTr = "<tr>\n\t\t\t<th>";
+            $theadTr .= implode($theadArray, "</th>\n\t\t\t<th>");
+            $theadTr .= "</th>\n\t\t</tr>";
+        }
+
+        // Generate tbody content;
+
+        $tbody = '';
+        foreach ($data as $td) {
+            $tbodyTr = "<tr>\n\t\t\t<td>";
+            $tbodyTr .= implode($td, "</td>\n\t\t\t<td>");
+            $tbodyTr .= "</td>\n\t\t</tr>\n\t\t";
+
+            $tbody .= $tbodyTr;
+        }
+
+        $return = str_replace('{thead}', $theadTr, $return);
+        $return = str_replace('{tbody}', $tbody, $return);
+
+        return $return;
+    }
+
+    /**
      * Clear HTML Content.
      *
      * @return Element
