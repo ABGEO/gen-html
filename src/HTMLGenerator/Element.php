@@ -714,6 +714,125 @@ EOF;
     }
 
     /**
+     * Create section tag.
+     *
+     * @param string      $content Section content.
+     * @param array       $classes HTML Classes.
+     * @param string|null $id      Element ID.
+     *
+     * @return string
+     */
+    public function createSection(
+        string $content,
+        array $classes = [],
+        string $id = null
+    ): string {
+        $template = <<<EOF
+<section{classes_area}{id_area}>
+{content}
+    </section>\n\t
+EOF;
+
+        $return = $this->_createBaseFromTemplate(
+            $template, $content, $classes, $id
+        );
+
+        return $return;
+    }
+
+    /**
+     * Create span tag.
+     *
+     * @param string      $content Span content.
+     * @param array       $classes HTML Classes.
+     * @param string|null $id      Element ID.
+     *
+     * @return string
+     */
+    public function createSpan(
+        string $content,
+        array $classes = [],
+        string $id = null
+    ): string {
+        $template = "<span{classes_area}{id_area}>{content}</span>\n\t";
+
+        $return = $this->_createBaseFromTemplate(
+            $template, $content, $classes, $id
+        );
+
+        return $return;
+    }
+
+    /**
+     * Create strong tag.
+     *
+     * @param string      $content Strong content.
+     * @param array       $classes HTML Classes.
+     * @param string|null $id      Element ID.
+     *
+     * @return string
+     */
+    public function createStrong(
+        string $content,
+        array $classes = [],
+        string $id = null
+    ): string {
+        $template = "<strong{classes_area}{id_area}>{content}</strong>\n\t";
+
+        $return = $this->_createBaseFromTemplate(
+            $template, $content, $classes, $id
+        );
+
+        return $return;
+    }
+
+    /**
+     * Create sub tag.
+     *
+     * @param string      $content Sub content.
+     * @param array       $classes HTML Classes.
+     * @param string|null $id      Element ID.
+     *
+     * @return string
+     */
+    public function createSub(
+        string $content,
+        array $classes = [],
+        string $id = null
+    ): string {
+        $template = "<sub{classes_area}{id_area}>{content}</sub>\n\t";
+
+        $return = $this->_createBaseFromTemplate(
+            $template, $content, $classes, $id
+        );
+
+        return $return;
+    }
+
+    /**
+     * Create sup tag.
+     *
+     * @param string      $content Sup content.
+     * @param array       $classes HTML Classes.
+     * @param string|null $id      Element ID.
+     *
+     * @return string
+     */
+    public function createSup(
+        string $content,
+        array $classes = [],
+        string $id = null
+    ): string {
+        $template = "<sup{classes_area}{id_area}>{content}</sup>\n\t";
+
+        $return = $this->_createBaseFromTemplate(
+            $template, $content, $classes, $id
+        );
+
+        return $return;
+    }
+
+    /**
      * Clear HTML Content.
      *
      * @return Element
