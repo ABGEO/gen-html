@@ -38,6 +38,37 @@ class Element
     const LIST_ORDERED = 'ol';
     const LIST_UNORDERED = 'ul';
 
+    // Define form methods.
+    const FORM_METHOD_GET = 'get';
+    const FORM_METHOD_POST = 'post';
+
+    // Define form enctypes.
+    const FORM_TYPE_URLENCODED = 'application/x-www-form-urlencoded';
+    const FORM_TYPE_FORM_DATA = 'multipart/form-data';
+    const FORM_TYPE_TEXT = 'text/plain';
+
+    // Define input types.
+    const INPUT_BUTTON = 'button';
+    const INPUT_CHECKBOX = 'checkbox';
+    const INPUT_COLOR = 'color';
+    const INPUT_DATE = 'date';
+    const INPUT_EMAIL = 'email';
+    const INPUT_FILE = 'file';
+    const INPUT_HIDDEN = 'hidden';
+    const INPUT_MONTH = 'month';
+    const INPUT_NUMBER = 'number';
+    const INPUT_PASSWORD = 'password';
+    const INPUT_RADIO = 'radio';
+    const INPUT_RANGE = 'range';
+    const INPUT_RESET = 'reset';
+    const INPUT_SEARCH = 'search';
+    const INPUT_SUBMIT = 'submit';
+    const INPUT_TEL = 'tel';
+    const INPUT_TEXT = 'text';
+    const INPUT_TIME = 'time';
+    const INPUT_URL = 'url';
+    const INPUT_WEEK = 'week';
+
     /**
      * HTML Content.
      *
@@ -374,6 +405,97 @@ EOF;
     }
 
     /**
+     * Create form tag.
+     *
+     * @param string      $content Form content.
+     * @param string      $action  Form action.
+     * @param string|null $method  Form HTTP method.
+     * @param string|null $enctype Form type
+     * @param string      $target  Form target.
+     * @param string|null $name    Form name.
+     * @param array       $classes HTML Classes.
+     * @param string|null $id      Element ID.
+     *
+     * @return string
+     *
+     * @throws \ReflectionException
+     * @throws InvalidDocumentException
+     */
+    public static function createForm(
+        string $content,
+        string $action,
+        string $method = self::FORM_METHOD_GET,
+        string $enctype = self::FORM_TYPE_TEXT,
+        string $target = self::TARGET_SELF,
+        string $name = null,
+        array $classes = [],
+        string $id = null
+    ): string {
+        $template = <<<EOF
+<form{action_area}{method_area}{type_area}{name_area}{target_area}{classes_area}{id_area}>
+        {content}
+    </form>\n\t
+EOF;
+        // Validation.
+
+        $validTargets = array_filter(
+            self::_getConstants(), function ($key) {
+                return strpos($key, 'TARGET_') === 0;
+            }, ARRAY_FILTER_USE_KEY
+        );
+
+        $validFormTypes = array_filter(
+            self::_getConstants(), function ($key) {
+                return strpos($key, 'FORM_TYPE_') === 0;
+            }, ARRAY_FILTER_USE_KEY
+        );
+
+        $validFormMethods = array_filter(
+            self::_getConstants(), function ($key) {
+                return strpos($key, 'FORM_METHOD_') === 0;
+            }, ARRAY_FILTER_USE_KEY
+        );
+
+        // Check if given target is valid.
+        if (!in_array($target, array_values($validTargets))) {
+            throw new InvalidDocumentException(
+                'Target "' . $target . '" is invalid!', 5
+            );
+        }
+
+        // Check if given enctype is valid.
+        if (!in_array($enctype, array_values($validFormTypes))) {
+            throw new InvalidDocumentException(
+                'Enctype "' . $enctype . '" is invalid!', 8
+            );
+        }
+
+        // Check if given method is valid.
+        if (!in_array($method, array_values($validFormMethods))) {
+            throw new InvalidDocumentException(
+                'Form method "' . $method . '" is invalid!', 9
+            );
+        }
+
+        $return = self::_createBaseFromTemplate(
+            $template, $content, $classes, $id
+        );
+
+        $nameArea = null;
+        if (null !== $name) {
+            $nameArea = " name=\"{$name}\"";
+        }
+
+        $return = str_replace('{action_area}', " action=\"{$action}\"", $return);
+        $return = str_replace('{method_area}', " method=\"{$method}\"", $return);
+        $return = str_replace('{type_area}', " enctype=\"{$enctype}\"", $return);
+        $return = str_replace('{name_area}', $nameArea, $return);
+        $return = str_replace('{target_area}', " target=\"{$target}\"", $return);
+
+        return $return;
+    }
+
+    /**
      * Create footer tag.
      *
      * @param string      $content Footer content.
@@ -549,6 +671,102 @@ EOF;
         $template = str_replace('{id_area}', $idArea, $template);
 
         return $template;
+    }
+
+    /**
+     * Create input tag.
+     *
+     * @param string      $type        Input type.
+     * @param string|null $name        Input name.
+     * @param string|null $value       Input value
+     * @param string|null $placeholder Input placeholder.
+     * @param array       $classes     HTML Classes.
+     * @param string|null $id          Element ID.
+     *
+     * @return string
+     *
+     * @throws InvalidDocumentException
+     * @throws \ReflectionException
+     */
+    public static function createInput(
+        string $type = self::INPUT_TEXT,
+        string $name = null,
+        string $value = null,
+        string $placeholder = null,
+        array $classes = [],
+        string $id = null
+    ): string {
+
+        // Validation.
+        $validTypes = array_filter(
+            self::_getConstants(), function ($key) {
+                return strpos($key, 'INPUT_') === 0;
+            }, ARRAY_FILTER_USE_KEY
+        );
+
+        // Check if given type is valid.
+        if (!in_array($type, array_values($validTypes))) {
+            throw new InvalidDocumentException(
+                'Input type "' . $type . '" is invalid!', 10
+            );
+        }
+
+        $template = "<input type=\"{content}\"{name_area}{value_area}" .
+            "{placeholder_area}{classes_area}{id_area}>\n\t";
+
+        $return = self::_createBaseFromTemplate(
+            $template, $type, $classes, $id
+        );
+
+        $nameArea = null;
+        $valueArea = null;
+        $placeholderArea = null;
+
+        if (null !== $name) {
+            $nameArea = " name=\"{$name}\"";
+        }
+        if (null !== $value) {
+            $valueArea = " value=\"{$value}\"";
+        }
+        if (null !== $placeholder) {
+            $placeholderArea = " placeholder=\"{$placeholder}\"";
+        }
+
+        $return = str_replace('{name_area}', $nameArea, $return);
+        $return = str_replace('{value_area}', $valueArea, $return);
+        $return = str_replace(
+            '{placeholder_area}', $placeholderArea, $return
+        );
+
+        return $return;
+    }
+
+    /**
+     * Create label tag.
+     *
+     * @param string      $content I content.
+     * @param string      $for     Related element ID.
+     * @param array       $classes HTML Classes.
+     * @param string|null $id      Element ID.
+     *
+     * @return string
+     */
+    public static function createLabel(
+        string $content,
+        string $for,
+        array $classes = [],
+        string $id = null
+    ): string {
+        $template = "<label for=\"{for}\"{classes_area}{id_area}>".
+            "{content}</label>\n\t";
+
+        $return = self::_createBaseFromTemplate(
+            $template, $content, $classes, $id
+        );
+
+        $return = str_replace('{for}', $for, $return);
+
+        return $return;
     }
 
     /**
@@ -736,6 +954,47 @@ EOF;
         $return = self::_createBaseFromTemplate(
             $template, $content, $classes, $id
         );
+
+        return $return;
+    }
+
+    /**
+     * Create select tag.
+     *
+     * @param array       $data    Options data.
+     * @param string|null $name    Select name.
+     * @param array       $classes HTML Classes.
+     * @param string|null $id      Element ID.
+     *
+     * @return string
+     */
+    public static function createSelect(
+        array $data,
+        string $name = null,
+        array $classes = [],
+        string $id = null
+    ): string {
+        $template = <<<EOF
+<select{name_area}{classes_area}{id_area}>
+{content}
+    </select>\n\t
+EOF;
+
+        $content = '';
+        foreach ($data as $k => $v) {
+            $content .= "<option value=\"{$k}\">{$v}</option>\n\t\t";
+        }
+
+        $return = self::_createBaseFromTemplate(
+            $template, $content, $classes, $id
+        );
+
+        $nameArea = null;
+        if (null !== $name) {
+            $nameArea = " name=\"{$name}\"";
+        }
+
+        $return = str_replace('{name_area}', $nameArea, $return);
 
         return $return;
     }

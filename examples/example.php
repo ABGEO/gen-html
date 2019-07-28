@@ -38,7 +38,7 @@ try {
         ->add2Content(Element::createBreak())
         ->add2Content(Element::createBreak())
         ->add2Content(Element::createCode('print ("Hello. World")'))
-        ->add2Content(Element::createI('<p>I\'m alternate voice</p>'))
+        ->add2Content(Element::createI('I\'m alternate voice'))
         ->add2Content(Element::createImg('../images/code.jpg', 'Alternative text'))
         ->add2Content(
             Element::createList(
@@ -86,6 +86,44 @@ try {
                     ['d2.1', 'd2.2', 'd2.3'],
                     ['d3.1', 'd3.2', 'd3.3']
                 ], ['table'], 'table1'
+            )
+        )
+        ->add2Content(
+            Element::createForm(
+                Element::concatenateElements(
+                    Element::createLabel('Username', 'username'),
+                    Element::createInput(
+                        Element::INPUT_TEXT, 'username', null,
+                        'Enter your username', [], 'username'
+                    ),
+                    Element::createBreak(),
+                    Element::createLabel('Password', 'pass'),
+                    Element::createInput(
+                        Element::INPUT_PASSWORD, 'password', null,
+                        'Enter your password', [], 'pass'
+                    ),
+                    Element::createBreak(),
+                    Element::createLabel('remember me', 'remember'),
+                    Element::createInput(
+                        Element::INPUT_CHECKBOX, 'remember', null,
+                        null, [], 'remember'
+                    ),
+                    Element::createBreak(),
+                    Element::createBreak(),
+                    Element::createInput(Element::INPUT_RESET, null, 'Reset'),
+                    Element::createInput(Element::INPUT_SUBMIT, null, 'Submit'),
+                ),
+                '/bootstrap.php'
+            )
+        )
+        ->add2Content(
+            Element::createSelect(
+                [
+                    'car1' => 'Mercedes',
+                    'car2' => 'Audi',
+                    'car3' => 'BMW',
+                    'car4' => 'Tesla',
+                ], 'car'
             )
         )
         ->add2Content(Element::createFooter('<p>I\'m Paragraph in Footer</p>'));

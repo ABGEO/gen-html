@@ -39,7 +39,10 @@ class InvalidDocumentException extends \Exception
      *                             4: Invalid Charset,
      *                             5: Invalid link target,
      *                             6: Invalid heading size,
-     *                             7: Invalid list type.
+     *                             7: Invalid list type,
+     *                             8: Invalid form enctype,
+     *                             9: Invalid form method,
+     *                             10: Invalid input type.
      * @param \Exception $previous [optional] The previous throwable
      *                             used for the exception chaining.
      */
