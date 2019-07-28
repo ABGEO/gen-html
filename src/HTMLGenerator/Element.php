@@ -52,7 +52,7 @@ class Element
      *
      * @throws \ReflectionException
      */
-    private function _getConstants(): array
+    private static function _getConstants(): array
     {
         $oClass = new ReflectionClass(__CLASS__);
         $constants = $oClass->getConstants();
@@ -68,7 +68,7 @@ class Element
      *
      * @return string
      */
-    private function _addClasses(array $classes, string $template): string
+    private static function _addClasses(array $classes, string $template): string
     {
         $replace = null;
 
@@ -90,7 +90,7 @@ class Element
      *
      * @return string
      */
-    private function _addId($id, string $template): string
+    private static function _addId($id, string $template): string
     {
         $replace = null;
 
@@ -113,14 +113,14 @@ class Element
      *
      * @return string
      */
-    private function _createBaseFromTemplate(
+    private static function _createBaseFromTemplate(
         string $template,
         string $content,
         array $classes = [],
         string $id = null
     ) {
-        $template = $this->_addClasses($classes, $template);
-        $template = $this->_addId($id, $template);
+        $template = self::_addClasses($classes, $template);
+        $template = self::_addId($id, $template);
 
         $template = str_replace('{content}', $content, $template);
 
@@ -158,7 +158,7 @@ class Element
      *
      * @return string
      */
-    public function concatenateElements(string ...$elements): string
+    public static function concatenateElements(string ...$elements): string
     {
         return implode($elements);
     }
@@ -177,7 +177,7 @@ class Element
      * @throws InvalidDocumentException
      * @throws \ReflectionException
      */
-    public function createLink(
+    public static function createLink(
         string $title,
         string $href,
         string $target = self::TARGET_BLANK,
@@ -187,7 +187,7 @@ class Element
         // Validation.
 
         $validTargets = array_filter(
-            $this->_getConstants(), function ($key) {
+            self::_getConstants(), function ($key) {
                 return strpos($key, 'TARGET_') === 0;
             }, ARRAY_FILTER_USE_KEY
         );
@@ -202,7 +202,7 @@ class Element
         $template = "<a href=\"{href}\"{classes_area}{id_area} " .
             "target=\"{target}\">{content}</a>\n\t";
 
-        $template = $this->_createBaseFromTemplate(
+        $template = self::_createBaseFromTemplate(
             $template, $title, $classes, $id
         );
 
@@ -221,7 +221,7 @@ class Element
      *
      * @return string
      */
-    public function createArticle(
+    public static function createArticle(
         string $content,
         array $classes = [],
         string $id = null
@@ -232,7 +232,7 @@ class Element
     </article>\n\t
 EOF;
 
-        $return = $this->_createBaseFromTemplate(
+        $return = self::_createBaseFromTemplate(
             $template, $content, $classes, $id
         );
 
@@ -248,14 +248,14 @@ EOF;
      *
      * @return string
      */
-    public function createBold(
+    public static function createBold(
         string $content,
         array $classes = [],
         string $id = null
     ): string {
         $template = "<b{classes_area}{id_area}>{content}</b>\n\t";
 
-        $return = $this->_createBaseFromTemplate(
+        $return = self::_createBaseFromTemplate(
             $template, $content, $classes, $id
         );
 
@@ -272,7 +272,7 @@ EOF;
      *
      * @return string
      */
-    public function createBlockquote(
+    public static function createBlockquote(
         string $content,
         string $cite,
         array $classes = [],
@@ -281,7 +281,7 @@ EOF;
         $template = "<blockquote cite=\"{cite}\"{classes_area}{id_area}>" .
             "{content}</blockquote>\n\t";
 
-        $template = $this->_createBaseFromTemplate(
+        $template = self::_createBaseFromTemplate(
             $template, $content, $classes, $id
         );
 
@@ -295,7 +295,7 @@ EOF;
      *
      * @return string
      */
-    public function createBreak(): string
+    public static function createBreak(): string
     {
         return "<br>\n\t";
     }
@@ -309,14 +309,14 @@ EOF;
      *
      * @return string
      */
-    public function createCode(
+    public static function createCode(
         string $code,
         array $classes = [],
         string $id = null
     ): string {
         $template = "<code{classes_area}{id_area}>{content}</code>\n\t";
 
-        $return = $this->_createBaseFromTemplate(
+        $return = self::_createBaseFromTemplate(
             $template, $code, $classes, $id
         );
 
@@ -332,7 +332,7 @@ EOF;
      *
      * @return string
      */
-    public function createDiv(
+    public static function createDiv(
         string $content,
         array $classes = [],
         string $id = null
@@ -343,7 +343,7 @@ EOF;
     </div>\n\t
 EOF;
 
-        $return = $this->_createBaseFromTemplate(
+        $return = self::_createBaseFromTemplate(
             $template, $content, $classes, $id
         );
 
@@ -359,14 +359,14 @@ EOF;
      *
      * @return string
      */
-    public function createEm(
+    public static function createEm(
         string $content,
         array $classes = [],
         string $id = null
     ): string {
         $template = "<em{classes_area}{id_area}>{content}</em>\n\t";
 
-        $return = $this->_createBaseFromTemplate(
+        $return = self::_createBaseFromTemplate(
             $template, $content, $classes, $id
         );
 
@@ -382,7 +382,7 @@ EOF;
      *
      * @return string
      */
-    public function createFooter(
+    public static function createFooter(
         string $content,
         array $classes = [],
         string $id = null
@@ -393,7 +393,7 @@ EOF;
     </footer>\n\t
 EOF;
 
-        $return = $this->_createBaseFromTemplate(
+        $return = self::_createBaseFromTemplate(
             $template, $content, $classes, $id
         );
 
@@ -412,7 +412,7 @@ EOF;
      *
      * @throws InvalidDocumentException
      */
-    public function createHeading(
+    public static function createHeading(
         string $content,
         int $size = 1,
         array $classes = [],
@@ -428,7 +428,7 @@ EOF;
 
         $template = "<h{$size}{classes_area}{id_area}>{content}</h{$size}>\n\t";
 
-        $return = $this->_createBaseFromTemplate(
+        $return = self::_createBaseFromTemplate(
             $template, $content, $classes, $id
         );
 
@@ -444,7 +444,7 @@ EOF;
      *
      * @return string
      */
-    public function createHeader(
+    public static function createHeader(
         string $content,
         array $classes = [],
         string $id = null
@@ -455,7 +455,7 @@ EOF;
     </header>\n\t
 EOF;
 
-        $return = $this->_createBaseFromTemplate(
+        $return = self::_createBaseFromTemplate(
             $template, $content, $classes, $id
         );
 
@@ -467,7 +467,7 @@ EOF;
      *
      * @return string
      */
-    public function createLine(): string
+    public static function createLine(): string
     {
         return "<hr>\n\t";
     }
@@ -481,14 +481,14 @@ EOF;
      *
      * @return string
      */
-    public function createI(
+    public static function createI(
         string $content,
         array $classes = [],
         string $id = null
     ): string {
         $template = "<i{classes_area}{id_area}>{content}</i>\n\t";
 
-        $return = $this->_createBaseFromTemplate(
+        $return = self::_createBaseFromTemplate(
             $template, $content, $classes, $id
         );
 
@@ -507,7 +507,7 @@ EOF;
      *
      * @return string
      */
-    public function createImg(
+    public static function createImg(
         string $src,
         string $alt = null,
         int $height = -1,
@@ -564,7 +564,7 @@ EOF;
      * @throws InvalidDocumentException
      * @throws \ReflectionException
      */
-    public function createList(
+    public static function createList(
         array $items,
         string $type = self::LIST_ORDERED,
         array $classes = [],
@@ -573,7 +573,7 @@ EOF;
         // Validation.
 
         $validTypes = array_filter(
-            $this->_getConstants(), function ($key) {
+            self::_getConstants(), function ($key) {
                 return strpos($key, 'LIST_') === 0;
             }, ARRAY_FILTER_USE_KEY
         );
@@ -596,7 +596,7 @@ EOF;
     </$type>\n\t
 EOF;
 
-        $return = $this->_createBaseFromTemplate(
+        $return = self::_createBaseFromTemplate(
             $template, $content, $classes, $id
         );
 
@@ -613,7 +613,7 @@ EOF;
      *
      * @return string
      */
-    public function createNav(
+    public static function createNav(
         array $items,
         string $separator = null,
         array $classes = [],
@@ -627,7 +627,7 @@ EOF;
 
         $content = implode($items, "{$separator}\n\t");
 
-        $return = $this->_createBaseFromTemplate(
+        $return = self::_createBaseFromTemplate(
             $template, $content, $classes, $id
         );
 
@@ -643,14 +643,14 @@ EOF;
      *
      * @return string
      */
-    public function createParagraph(
+    public static function createParagraph(
         string $content,
         array $classes = [],
         string $id = null
     ): string {
         $template = "<p{classes_area}{id_area}>{content}</p>\n\t";
 
-        $return = $this->_createBaseFromTemplate(
+        $return = self::_createBaseFromTemplate(
             $template, $content, $classes, $id
         );
 
@@ -666,7 +666,7 @@ EOF;
      *
      * @return string
      */
-    public function createPre(
+    public static function createPre(
         string $content,
         array $classes = [],
         string $id = null
@@ -677,7 +677,7 @@ EOF;
     </pre>\n\t
 EOF;
 
-        $return = $this->_createBaseFromTemplate(
+        $return = self::_createBaseFromTemplate(
             $template, $content, $classes, $id
         );
 
@@ -694,7 +694,7 @@ EOF;
      *
      * @return string
      */
-    public function createProgress(
+    public static function createProgress(
         int $value,
         int $max = 100,
         array $classes = [],
@@ -703,7 +703,7 @@ EOF;
         $template = "<progress value=\"{value}\" max=\"{max}\"" .
             "{classes_area}{id_area}></progress>\n\t";
 
-        $template = $this->_createBaseFromTemplate(
+        $template = self::_createBaseFromTemplate(
             $template, '', $classes, $id
         );
 
@@ -722,7 +722,7 @@ EOF;
      *
      * @return string
      */
-    public function createSection(
+    public static function createSection(
         string $content,
         array $classes = [],
         string $id = null
@@ -733,7 +733,7 @@ EOF;
     </section>\n\t
 EOF;
 
-        $return = $this->_createBaseFromTemplate(
+        $return = self::_createBaseFromTemplate(
             $template, $content, $classes, $id
         );
 
@@ -749,14 +749,14 @@ EOF;
      *
      * @return string
      */
-    public function createSpan(
+    public static function createSpan(
         string $content,
         array $classes = [],
         string $id = null
     ): string {
         $template = "<span{classes_area}{id_area}>{content}</span>\n\t";
 
-        $return = $this->_createBaseFromTemplate(
+        $return = self::_createBaseFromTemplate(
             $template, $content, $classes, $id
         );
 
@@ -772,14 +772,14 @@ EOF;
      *
      * @return string
      */
-    public function createStrong(
+    public static function createStrong(
         string $content,
         array $classes = [],
         string $id = null
     ): string {
         $template = "<strong{classes_area}{id_area}>{content}</strong>\n\t";
 
-        $return = $this->_createBaseFromTemplate(
+        $return = self::_createBaseFromTemplate(
             $template, $content, $classes, $id
         );
 
@@ -795,14 +795,14 @@ EOF;
      *
      * @return string
      */
-    public function createSub(
+    public static function createSub(
         string $content,
         array $classes = [],
         string $id = null
     ): string {
         $template = "<sub{classes_area}{id_area}>{content}</sub>\n\t";
 
-        $return = $this->_createBaseFromTemplate(
+        $return = self::_createBaseFromTemplate(
             $template, $content, $classes, $id
         );
 
@@ -818,14 +818,14 @@ EOF;
      *
      * @return string
      */
-    public function createSup(
+    public static function createSup(
         string $content,
         array $classes = [],
         string $id = null
     ): string {
         $template = "<sup{classes_area}{id_area}>{content}</sup>\n\t";
 
-        $return = $this->_createBaseFromTemplate(
+        $return = self::_createBaseFromTemplate(
             $template, $content, $classes, $id
         );
 
