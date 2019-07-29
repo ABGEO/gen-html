@@ -159,7 +159,7 @@ class Element
     }
 
     /**
-     * Add element to HTML content.
+     * Add string to HTML content.
      *
      * @param string $html Element.
      *

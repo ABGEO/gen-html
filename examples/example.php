@@ -12,7 +12,11 @@ $document = new Document();
 
 try {
     $element
-        ->add2Content(Element::createHeader('<p>I\'m Paragraph in Header</p>'))
+        ->add2Content(
+            Element::createHeader(
+                Element::createParagraph('I\'m Paragraph in Header')
+            )
+        )
         ->add2Content(
             Element::createLink(
                 'Informatics.ge', 'https://informatics.ge',
