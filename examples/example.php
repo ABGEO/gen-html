@@ -22,7 +22,11 @@ try {
         ->add2Content(Element::createBreak())
         ->add2Content(Element::createBreak())
         ->add2Content(Element::createLine())
-        ->add2Content(Element::createArticle('<p>Hello</p>', ['class1'], 'id'))
+        ->add2Content(
+            Element::createArticle(
+                Element::createHeading('I\'m Article'), ['class1'], 'article'
+            )
+        )
         ->add2Content(Element::createBold('I\'m Bold text', [], 'bold'))
         ->add2Content(
             Element::createBlockquote(
@@ -30,7 +34,11 @@ try {
                 'http://www.worldwildlife.org/who/index.html', [], 'quote'
             )
         )
-        ->add2Content(Element::createDiv('<p>I\'m Paragraph in Div</p>', [], 'div'))
+        ->add2Content(
+            Element::createDiv(
+                Element::createParagraph('I\'m Paragraph in Div'), [], 'div'
+            )
+        )
         ->add2Content(Element::createHeading('H1'))
         ->add2Content(Element::createHeading('H3', 3))
         ->add2Content(Element::createHeading('H6', 6))
@@ -126,7 +134,17 @@ try {
                 ], 'car'
             )
         )
-        ->add2Content(Element::createFooter('<p>I\'m Paragraph in Footer</p>'));
+        ->add2Content(Element::createBreak())
+        ->add2Content(
+            Element::createTextarea(
+                'textarea', 'Text about me', 'About me'
+            )
+        )
+        ->add2Content(
+            Element::createFooter(
+                Element::createParagraph('I\'m Paragraph in Footer')
+            )
+        );
 
     $document
         ->setLanguage(Document::LANG_GEORGIAN)

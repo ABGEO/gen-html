@@ -1150,6 +1150,53 @@ EOF;
     }
 
     /**
+     * Create textarea tag.
+     *
+     * @param string|null $name        Textarea name.
+     * @param string|null $value       Textarea value.
+     * @param string|null $placeholder Textarea placeholder.
+     * @param array       $classes     HTML Classes.
+     * @param string|null $id          Element ID.
+     *
+     * @return string
+     */
+    public static function createTextarea(
+        string $name = null,
+        string $value = null,
+        string $placeholder = null,
+        array $classes = [],
+        string $id = null
+    ): string {
+        $template = "<textarea{name_area}{placeholder_area}" .
+            "{classes_area}{id_area}>{content}</textarea>\n\t";
+
+        $nameArea = null;
+        $valueArea = '';
+        $placeholderArea = null;
+
+        if (null !== $name) {
+            $nameArea = " name=\"{$name}\"";
+        }
+        if (null !== $value) {
+            $valueArea = $value;
+        }
+        if (null !== $placeholder) {
+            $placeholderArea = " placeholder=\"{$placeholder}\"";
+        }
+
+        $return = self::_createBaseFromTemplate(
+            $template, $valueArea, $classes, $id
+        );
+
+        $return = str_replace('{name_area}', $nameArea, $return);
+        $return = str_replace(
+            '{placeholder_area}', $placeholderArea, $return
+        );
+
+        return $return;
+    }
+
+    /**
      * Clear HTML Content.
      *
      * @return Element
